@@ -3,53 +3,56 @@ using System;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int _baseDamage = 12;
-    [SerializeField] private float _multiplier = 1.6f;
-    
-    private bool _levelUp = false;
-    private int _level = 1;
-    private int _experience = 0;
-    private int _experienceToNextLevel = 100;
+    [SerializeField] private int _hp = 100;
+    [SerializeField] private bool _isDeath = false;
+
+    [SerializeField] private Teams MyTeam;
+    [SerializeField] private Material EnemyColor;
+    [SerializeField] private Material AllyColor;
 
     private void Start()
     {
-        ShowInitialData();
+        KillPlayer();
+        JoinTeam();
     }
 
-    private void Update()
+    void KillPlayer()
     {
-        CheckNextLevel();
-    }
+        int BaseDamage = 2;
 
-    private void OnValidate()
-    {
-        float damageFloat = _baseDamage * _multiplier;
-        Debug.LogWarning($"Текущий (float) урон: {damageFloat}");
-    }
-
-    private void ShowInitialData()
-    {
-        int damageInt = _baseDamage;
-        float damageFloat = _baseDamage * _multiplier;
-
-        Debug.LogWarning($"Внимание! Нанесено {damageInt} (int) урона");
-        Debug.LogWarning($"Внимание! Нанесено {damageFloat} (float) урона");
-        Debug.LogWarning($"Переходите ли вы на следующий уровень? {_levelUp}");
-    }
-
-    private void CheckNextLevel()
-    {
-        _experience += 10;
-
-        Debug.Log($"Текущий опыт {_experience}");
-
-        if (_experience >= _experienceToNextLevel)
+        while (_hp > 0)
         {
-            _levelUp = true;
-            _level++;
-            _experience = 0;
-
-            Debug.LogError($"Вы перешли на уровень {_level}! Поздравляем!");
+            _hp -= BaseDamage;
+            Debug.Log(_hp);
         }
+
+        _hp = 0;
+        _isDeath = true;
+        Debug.LogWarning("Игрок мёртв");
     }
+
+    void JoinTeam() 
+    {
+        MeshRenderer PlayerMesh = GetComponent<MeshRenderer>();
+        bool isEnemy;
+
+        if (MyTeam == Teams.Enemy)
+        {
+            PlayerMesh.material = EnemyColor;
+            isEnemy = true;
+        }
+        else
+        {
+            PlayerMesh.material = AllyColor;
+            isEnemy = false;
+        }
+
+        Debug.LogError($"Игрок во вражеской команде: {isEnemy}");
+    }
+}
+
+enum Teams
+{
+    Enemy = 0,
+    Ally = 1
 }
