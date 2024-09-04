@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(_direction);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * _rotateSpeed);
 
-            if (!_isPhysicalMovement)
+            if (_isPhysicalMovement == false)
                 transform.Translate(_direction * _moveSpeed * Time.deltaTime, Space.World); 
         }
     }
