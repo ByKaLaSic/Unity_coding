@@ -8,6 +8,14 @@ public class HealthController : MonoBehaviour
 
     private bool _isAlive = true;
 
+    public int MaxHp 
+    { 
+        get
+        {
+            return _health;
+        } 
+    }
+
     public bool CanTakeDamage(int damage)
     {
         if (_isAlive == false)

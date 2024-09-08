@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject);
 
-        if (collision.collider.TryGetComponent(out HealthController healthController))
+        if (collision.collider.TryGetComponent(out HealthController healthController) == true)
         {
             if (healthController.CanTakeDamage(_damage))
             {
@@ -42,16 +42,6 @@ public class Bullet : MonoBehaviour
 
             rigidbody.AddForce(_rigidBody.velocity * _force, ForceMode.Impulse);
         }
-    }
-
-    private void OnBecameInvisible()
-    {
-        if (_isActive == false)
-        {
-            return;
-        }
-
-        Destroy(gameObject);
     }
 
     public void Run(Vector3 path, Vector3 startPosition)
