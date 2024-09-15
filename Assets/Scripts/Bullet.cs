@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
     }
 
     private Rigidbody _rigidBody;
-    public bool _isActive;
+    private bool _isActive;
 
     private void Awake()
     {

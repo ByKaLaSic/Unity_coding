@@ -2,24 +2,28 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [SerializeField] private float _force;
-    [SerializeField] private float _shotDelay;
+    [SerializeField] private WeaponUpgradeData _upgradeData;
     [SerializeField] protected Transform _barrel;
 
     protected float _lastShootTime;
+    protected float Force { get; private set; }
     protected bool CanShoot { get; private set; }
 
-    protected float Force
+    private float _shootDelay;
+    private int _level = 1;
+
+    protected virtual void Start()
     {
-        get
+        if (_upgradeData.TryGetWeaponData(_level, out WeaponData data))
         {
-            return _force;
+            _shootDelay = data.ShootDelay;
+            Force = data.Force;
         }
     }
 
     private void Update()
     {
-        CanShoot = _shotDelay <= _lastShootTime;
+        CanShoot = _shootDelay <= _lastShootTime;
 
         if (CanShoot)
         {

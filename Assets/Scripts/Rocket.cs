@@ -1,21 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public sealed class Rocket : MonoBehaviour
 {
+    private const int COLLISION_SIZE = 128;
     [SerializeField] private float _powerExplosion;
     [SerializeField] private float _scale;
 
     private Rigidbody _rigidbody;
-    private Collider[] _collidedObjects;
+    private readonly Collider[] _collidedObjects = new Collider[COLLISION_SIZE];
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _collidedObjects = new Collider[128];
     }
 
     private void OnCollisionEnter(Collision collision)
