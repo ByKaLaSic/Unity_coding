@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class SniperBullet : MonoBehaviour
+public class SniperBullet : BulletBase
 {
     [SerializeField] private float _force = 6;
     [SerializeField] private float _lifeTime = 8;
@@ -31,7 +31,7 @@ public class SniperBullet : MonoBehaviour
 
         if (collision.collider.TryGetComponent(out HealthController healthController) == true)
         {
-            if (healthController.CanTakeDamage(healthController.MaxHp))
+            if (healthController.CanTakeDamage(Damage))
             {
                 return;
             }

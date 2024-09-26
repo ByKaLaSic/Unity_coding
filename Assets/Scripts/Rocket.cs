@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public sealed class Rocket : MonoBehaviour
+public sealed class Rocket : BulletBase
 {
     private const int COLLISION_SIZE = 128;
     [SerializeField] private float _powerExplosion;
@@ -28,7 +28,7 @@ public sealed class Rocket : MonoBehaviour
 
             if (collidedObject.TryGetComponent(out HealthController healthController) == true)
             {
-                if (healthController.CanTakeDamage(healthController.MaxHp))
+                if (healthController.CanTakeDamage(Damage))
                 {
                     return;
                 }

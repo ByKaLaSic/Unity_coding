@@ -13,6 +13,8 @@ public class Shotgun : Weapon
     {
         if (_shells != null)
         {
+            AudioSource.PlayOneShot(ShotClip);
+
             for (int i = 0; i < _countInShell; i++)
             {
                 _shells[i].Run(_barrel.forward * Force);

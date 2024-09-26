@@ -14,6 +14,9 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _audioClip;
+
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -262,6 +265,18 @@ namespace StarterAssets
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+
+            if (_input.move != Vector2.zero && Grounded == true)
+            {
+                if (_audioSource.isPlaying == false)
+                {
+                    _audioSource.PlayOneShot(_audioClip);
+                }
+            }
+            else
+            {
+                _audioSource.Stop();
             }
 
 

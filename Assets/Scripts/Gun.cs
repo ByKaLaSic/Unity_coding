@@ -27,6 +27,7 @@ public sealed class Gun : Weapon
 
         if (TryGetBullet(out Bullet bullet))
         {
+            AudioSource.PlayOneShot(ShotClip);
             bullet.Run(_barrel.forward * Force, _barrel.position);
             _lastShootTime = 0.0f;
         }

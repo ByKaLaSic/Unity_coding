@@ -12,6 +12,7 @@ public sealed class Bazuka : Weapon
     {
         if (_instantiateRocket != null)
         {
+            AudioSource.PlayOneShot(ShotClip);
             _instantiateRocket.Run(_barrel.forward * Force);
             _instantiateRocket = null;
         }

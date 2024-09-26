@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -912104313611155906}
   m_Layer: 6
   m_Name: Shell
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,3 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebbe92ee6a5e6ac4da8401eb53760f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damage: 4
+  _spreadAngle: 5
+  _force: 3
+  _lifeTime: 4

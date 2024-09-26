@@ -27,6 +27,7 @@ public class Sniper : Weapon
 
         if (TryGetBullet(out SniperBullet sniperBullet))
         {
+            AudioSource.PlayOneShot(ShotClip);
             sniperBullet.Run(_barrel.forward * Force, _barrel.position);
             _lastShootTime = 0.0f;
         }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Shell : MonoBehaviour
+public class Shell : BulletBase
 {
     [SerializeField] private float _spreadAngle = 5f;
-    [SerializeField] private int _damage = 2;
     [SerializeField] private float _force = 3;
     [SerializeField] private float _lifeTime = 4;
 
@@ -23,7 +22,7 @@ public class Shell : MonoBehaviour
 
         if (collision.collider.TryGetComponent(out HealthController healthController) == true)
         {
-            if (healthController.CanTakeDamage(_damage))
+            if (healthController.CanTakeDamage(Damage))
             {
                 return;
             }

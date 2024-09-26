@@ -2,10 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Bullet : MonoBehaviour
+public class Bullet : BulletBase
 {
     [SerializeField] private float _force;
-    [SerializeField] private int _damage;
     [SerializeField] private float _lifeTime = 7.0f;
 
     public bool IsActive
@@ -30,7 +29,7 @@ public class Bullet : MonoBehaviour
 
         if (collision.collider.TryGetComponent(out HealthController healthController) == true)
         {
-            if (healthController.CanTakeDamage(_damage))
+            if (healthController.CanTakeDamage(Damage))
             {
                 return;
             }
