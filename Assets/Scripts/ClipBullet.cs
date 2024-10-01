@@ -2,13 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Shell : BulletBase
+public abstract class ClipBullet : BulletBase
 {
-    [SerializeField] private float _spreadAngle = 5f;
-    [SerializeField] private float _force = 3;
+    [SerializeField] private float _force;
+
+    public bool IsActive
+    {
+        get
+        {
+            return _isActive;
+        }
+    }
 
     private Rigidbody _rigidBody;
+    private bool _isActive;
 
     private void Awake()
     {
@@ -32,16 +39,14 @@ public class Shell : BulletBase
         }
     }
 
-    public void Run(Vector3 path)
+    public void Run(Vector3 path, Vector3 startPosition)
     {
+        transform.position = startPosition;
         transform.SetParent(null);
         gameObject.SetActive(true);
         _rigidBody.WakeUp();
-
-        Vector2 randomSpread = Random.insideUnitCircle * _spreadAngle;
-        Vector3 shootDirection = Quaternion.Euler(randomSpread.x, randomSpread.y, 0) * path;
-        _rigidBody.AddForce(shootDirection, ForceMode.Impulse);
-
+        _rigidBody.AddForce(path, ForceMode.Impulse);
+        _isActive = true;
         StartCoroutine(Die());
     }
 
@@ -49,5 +54,6 @@ public class Shell : BulletBase
     {
         _rigidBody.Sleep();
         gameObject.SetActive(false);
+        _isActive = false;
     }
 }

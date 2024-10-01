@@ -1,6 +1,7 @@
 using UnityEngine;
+using System.Collections;
 
-[RequireComponent(typeof(Rigidbody))]
+
 public sealed class Rocket : BulletBase
 {
     private const int COLLISION_SIZE = 128;
@@ -33,10 +34,7 @@ public sealed class Rocket : BulletBase
                     return;
                 }
 
-                if (healthController.TryGetComponent(out Rigidbody rigidbody) == false)
-                {
-                    rigidbody = collision.gameObject.AddComponent<Rigidbody>();
-                }
+                Rigidbody rigidbody = healthController.gameObject.GetOrAddRigidbody();
 
                 rigidbody.AddExplosionForce(_powerExplosion, center, radius);
             }
@@ -49,6 +47,7 @@ public sealed class Rocket : BulletBase
         _rigidbody.WakeUp();
         _rigidbody.isKinematic = false;
         _rigidbody.AddForce(path, ForceMode.Impulse);
+        StartCoroutine(Die());
     }
 
     public void Sleep(Vector3 startPoint)

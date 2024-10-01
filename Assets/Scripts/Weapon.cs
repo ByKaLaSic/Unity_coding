@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] private WeaponUpgradeData _upgradeData;
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioSource _shotSource;
     [SerializeField] private AudioClip _shotClip;
     [SerializeField] protected Transform _barrel;
 
@@ -11,21 +11,8 @@ public abstract class Weapon : MonoBehaviour
     protected float Force { get; private set; }
     protected bool CanShoot { get; private set; }
 
-    public AudioSource AudioSource
-    {
-        get
-        {
-            return _audioSource;
-        }
-    }
-
-    public AudioClip ShotClip
-    {
-        get
-        {
-            return _shotClip;
-        }
-    }
+    public AudioSource AudioSource => _shotSource;
+    public AudioClip ShotClip => _shotClip;
 
     private float _shootDelay;
     private int _level = 1;
