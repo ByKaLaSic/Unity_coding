@@ -1,6 +1,7 @@
 ﻿ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -14,6 +15,8 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
+        public event UnityAction<GameObject> PlayerMove;
+
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _audioClip;
 
@@ -265,6 +268,8 @@ namespace StarterAssets
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+
+                PlayerMove?.Invoke(_mainCamera);
             }
 
             if (_input.move != Vector2.zero && Grounded == true)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public abstract class Weapon : MonoBehaviour
     protected float _lastShootTime;
     protected float Force { get; private set; }
     protected bool CanShoot { get; private set; }
+    public abstract int AmmunitionLeft { get; }
 
     public AudioSource AudioSource => _shotSource;
     public AudioClip ShotClip => _shotClip;

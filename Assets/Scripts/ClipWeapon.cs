@@ -1,23 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-
-public abstract class ClipWeapon<T> : Weapon where T : ClipBullet
+public class ClipWeapon : Weapon
 {
-    [SerializeField] private T _bulletPrefab;
+    [SerializeField] private ClipBullet _bulletPrefab;
     [SerializeField] private int _countInClip;
 
     private Transform _bulletRoot;
-    private Queue<T> _bullets;
+    private Queue<ClipBullet> _bullets;
+
+    public override int AmmunitionLeft => _bullets.Count;
+
+    private void Awake()
+    {
+        _bullets = new Queue<ClipBullet>(_countInClip);
+        _bulletRoot = new GameObject("BulletRoot").transform;
+        _bulletRoot.SetParent(gameObject.transform);
+        Recharge();
+    }
 
     protected override void Start()
     {
         base.Start();
-        _bullets = new Queue<T>(_countInClip);
-        _bulletRoot = new GameObject("BulletRoot").transform;
-        _bulletRoot.SetParent(gameObject.transform);
-        Recharge();
     }
 
     public override void Fire()
@@ -27,7 +33,7 @@ public abstract class ClipWeapon<T> : Weapon where T : ClipBullet
             return;
         }
 
-        if (_bullets.TryDequeue(out T bullet))
+        if (_bullets.TryDequeue(out ClipBullet bullet))
         {
             AudioSource.PlayOneShot(ShotClip);
             bullet.Run(_barrel.forward * Force, _barrel.position);
@@ -53,7 +59,7 @@ public abstract class ClipWeapon<T> : Weapon where T : ClipBullet
 
         for (int i = 0; i < _countInClip; i++)
         {
-            T bullet = Instantiate(_bulletPrefab, _bulletRoot);
+            ClipBullet bullet = Instantiate(_bulletPrefab, _bulletRoot);
             bullet.Sleep();
             _bullets.Enqueue(bullet);
         }

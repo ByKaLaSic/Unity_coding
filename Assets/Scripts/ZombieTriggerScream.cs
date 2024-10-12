@@ -9,11 +9,9 @@ public class ZombieTriggerScream : MonoBehaviour
     [SerializeField] private AudioSource _hurtSource;
     [SerializeField] private AudioClip _screamClip;
 
-    private const string _playerTag = "Player";
-
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag(_playerTag))
+        if (other.TryGetComponent(out CharacterController _characterController))
         {
             _zombieRenderer.material.color = Color.yellow;
 
@@ -33,7 +31,7 @@ public class ZombieTriggerScream : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag(_playerTag))
+        if (other.TryGetComponent(out CharacterController _characterController))
         {
             _zombieRenderer.material.color = Color.black;
             _screamSource.Stop();

@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public sealed class WeaponSelector
 {
+    public event UnityAction<Weapon> WeaponChanged;
+
     private int _currentWeaponIndex;
     private Weapon _currentWeapon;
 
@@ -19,6 +22,7 @@ public sealed class WeaponSelector
         if (_currentWeapon != null)
         {
             _currentWeapon.Fire();
+            WeaponChanged?.Invoke(_currentWeapon);
         }
     }
 
@@ -27,6 +31,7 @@ public sealed class WeaponSelector
         if (_currentWeapon != null)
         {
             _currentWeapon.Recharge();
+            WeaponChanged?.Invoke(_currentWeapon);
         }
     }
 
@@ -52,5 +57,6 @@ public sealed class WeaponSelector
         int index = Mathf.Abs(_currentWeaponIndex % _weapons.Length);
         _currentWeapon = _weapons[index];
         _currentWeapon.gameObject.SetActive(true);
+        WeaponChanged?.Invoke(_currentWeapon);
     }
 }

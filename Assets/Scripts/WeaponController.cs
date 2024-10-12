@@ -1,15 +1,16 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class WeaponController : MonoBehaviour
 {
     [SerializeField] private AudioSource _switchWeaponSource;
 
-    private WeaponSelector _weaponSelector;
+    public WeaponSelector WeaponSelector;
 
-    private void Start()
+    private void Awake()
     {
         Weapon[] weapons = gameObject.GetComponentsInChildren<Weapon>(true);
-        _weaponSelector = new WeaponSelector(weapons);
+        WeaponSelector = new WeaponSelector(weapons);
     }
 
     private void Update()
@@ -19,23 +20,23 @@ public class WeaponController : MonoBehaviour
         if (scrollWheel >= 0.1f)
         {
             _switchWeaponSource.Play();
-            _weaponSelector.Next();
+            WeaponSelector.Next();
         }
 
         if (scrollWheel <= -0.1f)
         {
             _switchWeaponSource.Play();
-            _weaponSelector.Preview();
+            WeaponSelector.Preview();
         }
 
         if (Input.GetMouseButton(0))
         {
-            _weaponSelector.Fire();
+            WeaponSelector.Fire();
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            _weaponSelector.Recharge();
+            WeaponSelector.Recharge();
         }
     }
 }

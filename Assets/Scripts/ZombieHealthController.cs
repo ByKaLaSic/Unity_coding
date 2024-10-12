@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ZombieHealthController : MonoBehaviour
 {
@@ -9,20 +10,23 @@ public class ZombieHealthController : MonoBehaviour
     [SerializeField] private AudioClip _hurtClip;
     [SerializeField] private AudioClip _deathClip;
     [SerializeField] private int _health;
+    [SerializeField] private TextMeshProUGUI _text;
+
+    private HealthDisplayer _zombieHealthDisplayer;
 
     private void Start()
     {
         _hurtSource.clip = _hurtClip;
+        _zombieHealthDisplayer = new HealthDisplayer(_text, _health);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.TryGetComponent(out BulletBase bullet) == true)
         {
-            bullet = collision.gameObject.GetComponent<BulletBase>();
-
             if (TryGetDamage(bullet.Damage))
             {
+                _zombieHealthDisplayer.ChangeHealth(bullet.Damage);
                 _hurtSource.Play();
             }
             else

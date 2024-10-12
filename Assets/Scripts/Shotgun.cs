@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Shotgun : Weapon
 {
@@ -8,6 +9,9 @@ public class Shotgun : Weapon
     [SerializeField] private int _countInShell;
 
     private Shell[] _shells;
+    private int _ammunition = 0;
+
+    public override int AmmunitionLeft => _ammunition;
 
     public override void Fire()
     {
@@ -21,6 +25,7 @@ public class Shotgun : Weapon
             }
 
             _shells = null;
+            _ammunition--;
         }
     }
 
@@ -39,5 +44,7 @@ public class Shotgun : Weapon
             shell.Sleep();
             _shells[i] = shell;
         }
+
+        _ammunition++;
     }
 }

@@ -293,6 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7200801036224414292}
   - component: {fileID: 5680486268950386654}
+  - component: {fileID: 3286826239235829886}
   m_Layer: 0
   m_Name: Health Item
   m_TagString: HealthItem
@@ -337,3 +338,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0961871, y: 1.7461926, z: 1.1136963}
   m_Center: {x: -0.0046732426, y: 0.8741054, z: 0.005110264}
+--- !u!114 &3286826239235829886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8000645519703141751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7ca22fe22f98b944b823053f242afd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healingSoundPrefab: {fileID: 3984176828048754169, guid: eecb3a08ff06e354693c7aefa760af5f,
+    type: 3}
+  _healingClip: {fileID: 8300000, guid: c6b86408c75c4cd44b2b991b5d4fe989, type: 3}
