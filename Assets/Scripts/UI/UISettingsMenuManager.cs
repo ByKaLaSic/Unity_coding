@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public sealed class UIManager : MonoBehaviour
+public sealed class UISettingsMenuManager : MonoBehaviour
 {
     [SerializeField] private Button _musicControllerButton;
     [SerializeField] private Slider _musicControllerSlider;

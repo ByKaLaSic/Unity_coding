@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 
-public class ZombieHealthController : MonoBehaviour
+public sealed class ZombieHealthController : MonoBehaviour
 {
+    public static event UnityAction ZombieDeadSimple;
+    public static event UnityAction<TextMeshProUGUI> ZombieDeadWithText; 
+
     [SerializeField] private GameObject _deathSoundPrefab;
     [SerializeField] private AudioSource _hurtSource;
     [SerializeField] private AudioClip _hurtClip;
@@ -13,6 +15,7 @@ public class ZombieHealthController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
 
     private HealthDisplayer _zombieHealthDisplayer;
+    private bool _isDead;
 
     private void Start()
     {
@@ -31,7 +34,10 @@ public class ZombieHealthController : MonoBehaviour
             }
             else
             {
-                Die();
+                if (_isDead == false)
+                {
+                    Die();
+                }
             }
         }
     }
@@ -50,6 +56,9 @@ public class ZombieHealthController : MonoBehaviour
 
     void Die()
     {
+        _isDead = true;
+        ZombieDeadWithText?.Invoke(GetComponentInChildren<TextMeshProUGUI>());
+        ZombieDeadSimple?.Invoke();
         Destroy(gameObject);
         GameObject zombieDeathSound = Instantiate(_deathSoundPrefab, transform.position, Quaternion.identity);
         Destroy(zombieDeathSound, _deathClip.length);

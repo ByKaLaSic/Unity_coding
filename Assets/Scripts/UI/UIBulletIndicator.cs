@@ -1,5 +1,4 @@
 using TMPro;
-using System;
 using UnityEngine;
 
 public sealed class UIBulletIndicator : MonoBehaviour
