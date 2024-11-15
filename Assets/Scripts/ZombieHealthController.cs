@@ -42,7 +42,7 @@ public sealed class ZombieHealthController : MonoBehaviour
         }
     }
 
-    private bool TryGetDamage(int damage)
+    public bool TryGetDamage(int damage)
     {
         _health -= damage;
 
@@ -54,13 +54,13 @@ public sealed class ZombieHealthController : MonoBehaviour
         return true;
     }
 
-    void Die()
+    public void Die()
     {
         _isDead = true;
         ZombieDeadWithText?.Invoke(GetComponentInChildren<TextMeshProUGUI>());
         ZombieDeadSimple?.Invoke();
-        Destroy(gameObject);
         GameObject zombieDeathSound = Instantiate(_deathSoundPrefab, transform.position, Quaternion.identity);
         Destroy(zombieDeathSound, _deathClip.length);
+        Destroy(gameObject);
     }
 }

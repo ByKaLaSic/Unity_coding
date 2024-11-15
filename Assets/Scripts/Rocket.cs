@@ -5,6 +5,7 @@ public sealed class Rocket : BulletBase
     private const int COLLISION_SIZE = 128;
     [SerializeField] private float _powerExplosion;
     [SerializeField] private float _scale;
+    [SerializeField] private ParticleSystem _explosionParticle;
 
     private Rigidbody _rigidbody;
     private readonly Collider[] _collidedObjects = new Collider[COLLISION_SIZE];
@@ -19,22 +20,25 @@ public sealed class Rocket : BulletBase
         Destroy(gameObject);
         float radius = _scale / 2;
         Vector3 center = collision.contacts[0].point;
+        Instantiate(_explosionParticle, center, Quaternion.identity);
         int countCollied = Physics.OverlapSphereNonAlloc(center, radius, _collidedObjects);
 
         for (int i = 0; i < countCollied; i++)
         {
             Collider collidedObject = _collidedObjects[i];
 
-            if (collidedObject.TryGetComponent(out HealthController healthController) == true)
+            if (collidedObject.TryGetComponent(out ZombieHealthController healthController) == true)
             {
-                if (healthController.CanTakeDamage(Damage))
+                if (healthController.TryGetDamage(Damage))
                 {
                     return;
                 }
-
-                Rigidbody rigidbody = healthController.gameObject.GetOrAddRigidbody();
-
-                rigidbody.AddExplosionForce(_powerExplosion, center, radius);
+                else
+                {
+                    //Rigidbody rigidbody = healthController.gameObject.GetOrAddRigidbody();
+                    //rigidbody.AddExplosionForce(_powerExplosion, center, radius);
+                    healthController.Die();
+                }
             }
         }
     }

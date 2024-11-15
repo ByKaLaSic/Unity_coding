@@ -15,6 +15,7 @@ public class Shotgun : Weapon
     {
         if (_shells != null)
         {
+            _particleSystem.Play();
             AudioSource.PlayOneShot(ShotClip);
 
             for (int i = 0; i < _countInShell; i++)

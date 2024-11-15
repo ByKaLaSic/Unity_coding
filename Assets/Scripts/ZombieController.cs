@@ -5,28 +5,19 @@ using StarterAssets;
 public sealed class ZombieController : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent _agent;
-    
-    private Transform _player;
 
-    private void Start()
+    private Transform _playerTransform;
+
+    public void Initialize(Transform playerTransform)
     {
-        ThirdPersonController playerController = FindObjectOfType<ThirdPersonController>();
-
-        if (playerController != null)
-        {
-            _player = playerController.transform;
-        }
-        else
-        {
-            Debug.LogError("Player not found!");
-        }
+        _playerTransform = playerTransform;
     }
 
     private void Update()
     {
-        if (_player != null)
+        if (_playerTransform != null)
         {
-            MoveTo(_player.position);
+            MoveTo(_playerTransform.position);
         }
     }
 

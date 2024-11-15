@@ -19,6 +19,11 @@ public class Spawner : MonoBehaviour
             return;
         }
 
+        CreateHealItems();
+    }
+
+    private void CreateHealItems()
+    {
         for (int i = 0; i < _spawnPoints.Length; i++)
         {
             Instantiate(_spawnObjectPrefab, _spawnPoints[i].position, Quaternion.identity);

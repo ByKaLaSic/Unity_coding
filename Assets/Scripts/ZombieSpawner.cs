@@ -9,6 +9,7 @@ public class ZombieSpawner : MonoBehaviour
 
     [SerializeField] private DeadZombieChecker _deadZombieChecker;
     [SerializeField] private GameObject _zombiePrefab;
+    [SerializeField] private Transform _playerTransform;
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private int _zombieToWin;
     [SerializeField] private int _maxZombie;
@@ -24,12 +25,12 @@ public class ZombieSpawner : MonoBehaviour
 
     private void OnEnable()
     {
-        _deadZombieChecker.ZombieDead += UpdateZombieCount;
+        _deadZombieChecker.ZombieDead += DecrementZombieCount;
     }
 
     private void OnDisable()
     {
-        _deadZombieChecker.ZombieDead -= UpdateZombieCount;
+        _deadZombieChecker.ZombieDead -= DecrementZombieCount;
     }
 
     private void Start()
@@ -67,18 +68,24 @@ public class ZombieSpawner : MonoBehaviour
         }
     }
 
-    private void UpdateZombieCount()
+    private void DecrementZombieCount()
     {
         _generalDeadZombie++;
         _currentCountZombie--;
     }
 
-    private void SpawnZombie()
+    private void IncrementZombieCount()
     {
         _currentCountZombie++;
+    }
+
+    private void SpawnZombie()
+    {
+        IncrementZombieCount();
 
         int randomPoint = Random.Range(0, _spawnPoints.Length);
         GameObject zombie = Instantiate(_zombiePrefab, _spawnPoints[randomPoint].position, Quaternion.identity, _zombieRoot);
+        zombie.GetComponent<ZombieController>().Initialize(_playerTransform);
         ZombieCreated?.Invoke(zombie.GetComponentInChildren<TextMeshProUGUI>());
     }
 }

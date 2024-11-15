@@ -34,6 +34,7 @@ public class ClipWeapon : Weapon
         if (_bullets.TryDequeue(out ClipBullet bullet))
         {
             AudioSource.PlayOneShot(ShotClip);
+            _particleSystem.Play();
             bullet.Run(_barrel.forward * Force, _barrel.position);
             _lastShootTime = 0.0f;
         }

@@ -6,6 +6,7 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] private AudioSource _shotSource;
     [SerializeField] private AudioClip _shotClip;
     [SerializeField] protected Transform _barrel;
+    [SerializeField] protected ParticleSystem _particleSystem;
 
     protected float _lastShootTime;
     protected float Force { get; private set; }
