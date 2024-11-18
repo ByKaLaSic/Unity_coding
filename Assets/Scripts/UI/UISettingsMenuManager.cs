@@ -9,6 +9,9 @@ public sealed class UISettingsMenuManager : MonoBehaviour
     [SerializeField] private AudioSource _backgroundMusic;
     [SerializeField] private Sprite _musicOffSprite;
     [SerializeField] private Sprite _musicOnSprite;
+    [SerializeField] private EntryPoint _entryPoint;
+    [SerializeField] private Button _saveButton;
+    [SerializeField] private Button _loadButton;
 
     private float _musicVolume;
 
@@ -21,12 +24,16 @@ public sealed class UISettingsMenuManager : MonoBehaviour
     {
         _musicControllerButton.onClick.AddListener(ButtonClick);
         _musicControllerSlider.onValueChanged.AddListener(SliderValueChanged);
+        _saveButton.onClick.AddListener(SaveGame);
+        _loadButton.onClick.AddListener(LoadGame);
     }
 
     private void OnDisable()
     {
         _musicControllerButton.onClick.RemoveListener(ButtonClick);
         _musicControllerSlider.onValueChanged.RemoveListener(SliderValueChanged);
+        _saveButton.onClick.RemoveListener(SaveGame);
+        _loadButton.onClick.RemoveListener(LoadGame);
     }
 
     private void ButtonClick()
@@ -60,5 +67,15 @@ public sealed class UISettingsMenuManager : MonoBehaviour
         {
             _musicControllerImage.sprite = _musicOnSprite;
         }
+    }
+
+    private void SaveGame()
+    {
+        _entryPoint.SavePlayerPosition();
+    }
+
+    private void LoadGame()
+    {
+        _entryPoint.LoadPlayerPosition();
     }
 }
