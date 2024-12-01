@@ -33,6 +33,7 @@ public sealed class DeadZombieChecker : MonoBehaviour
         if (_zombieCount == 0)
         {
             AllZombieDead?.Invoke();
+            AnalyticsManager.OnPlayerWin();
         }
     }
 }

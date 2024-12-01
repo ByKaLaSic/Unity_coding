@@ -8,16 +8,16 @@ public class ZombieSpawner : MonoBehaviour
     public event UnityAction<TextMeshProUGUI> ZombieCreated;
 
     [SerializeField] private DeadZombieChecker _deadZombieChecker;
-    [SerializeField] private GameObject _zombiePrefab;
     [SerializeField] private Transform _playerTransform;
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private int _zombieToWin;
     [SerializeField] private int _maxZombie;
     [SerializeField] private float _minSpawnDelay;
     [SerializeField] private float _maxSpawnDelay;
+    [SerializeField] private EntryPoint _entryPoint;
 
+    private ObjectPool<ZombieHealthController> _zombiePool;
     private int _generalDeadZombie = 0;
-    private Transform _zombieRoot;
     private float _spawnInterval = 0f;
     private int _currentCountZombie;
 
@@ -35,19 +35,14 @@ public class ZombieSpawner : MonoBehaviour
 
     private void Start()
     {
-        if (_zombiePrefab == null)
-        {
-            Debug.LogError("The spawn object is not specified!");
-            return;
-        }
-
         if (_spawnPoints == null || _spawnPoints.Length == 0)
         {
             Debug.LogError("Spawn points not specified!");
             return;
         }
 
-        _zombieRoot = new GameObject("ZombieRoot").transform;
+        _zombiePool = _entryPoint.GetPool<ZombieHealthController>("ZombiePool");
+
         StartCoroutine(SpawnZombies());
     }
 
@@ -84,8 +79,11 @@ public class ZombieSpawner : MonoBehaviour
         IncrementZombieCount();
 
         int randomPoint = Random.Range(0, _spawnPoints.Length);
-        GameObject zombie = Instantiate(_zombiePrefab, _spawnPoints[randomPoint].position, Quaternion.identity, _zombieRoot);
+        ZombieHealthController zombie = _zombiePool.GetObjectFromPool();
+        zombie.Initialize(_entryPoint);
+        zombie.transform.position = _spawnPoints[randomPoint].position;
+        zombie.gameObject.SetActive(true);
         zombie.GetComponent<ZombieController>().Initialize(_playerTransform);
-        ZombieCreated?.Invoke(zombie.GetComponentInChildren<TextMeshProUGUI>());
+        ZombieCreated?.Invoke(zombie.gameObject.GetComponentInChildren<TextMeshProUGUI>());
     }
 }
